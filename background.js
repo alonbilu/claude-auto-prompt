@@ -174,8 +174,8 @@ function getQuietHoursEndTime() {
 
 // Open Claude in a new tab and set up the automation
 function openClaudeTab() {
-  const url = `https://claude.ai/new?model=${encodeURIComponent(modelText)}`;
-  console.log("Opening Claude with URL:", url);
+  const url = `https://claude.ai/new?incognito&model=${encodeURIComponent(modelText)}&incognito`;
+  console.log("Opening Incognito Claude with URL:", url);
   
   chrome.tabs.create({ url: url }, (tab) => {
     tabId = tab.id;
