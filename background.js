@@ -1,6 +1,6 @@
 // Configuration
 const INTERVAL_MINUTES = 5 * 60; // 5 hours in minutes
-let promptText = "."; // Default prompt
+let promptText = "say 1"; // Default prompt
 let modelText = "claude-3-5-haiku-20241022"; // Default model
 let quietHoursEnabled = false;
 let quietStartHour = 22;
@@ -174,7 +174,7 @@ function getQuietHoursEndTime() {
 
 // Open Claude in a new tab and set up the automation
 function openClaudeTab() {
-  const url = `https://claude.ai/new?model=${encodeURIComponent(modelText)}`;
+  const url = `https://claude.ai/new?model=${encodeURIComponent(modelText)}&incognito`;
   console.log("Opening Claude with URL:", url);
   
   chrome.tabs.create({ url: url }, (tab) => {
@@ -247,7 +247,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // Handle test/immediate run request from popup
       if (request.action === "runImmediately") {
         console.log("Running automation immediately with prompt:", request.prompt);
-        promptText = request.prompt || ".";
+        promptText = request.prompt || "say 1";
         
         // Use model from request if provided, otherwise load from storage
         if (request.model) {
