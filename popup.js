@@ -131,7 +131,7 @@ saveBtn.addEventListener('click', () => {
       return;
     }
     
-    const prompt = promptInput.value || ".";
+    const prompt = promptInput.value || "say 1";
     const model = modelInput.value || "claude-3-5-haiku-20241022";
     const quietEnabled = quietHoursEnabled.checked;
     const quietStart = parseInt(quietStartHour.value) || 22;
@@ -173,7 +173,7 @@ resetBtn.addEventListener('click', () => {
       return;
     }
     
-    promptInput.value = ".";
+    promptInput.value = "say 1";
     modelInput.value = "claude-3-5-haiku-20241022";
     quietHoursEnabled.checked = false;
     quietHoursContainer.style.display = 'none';
