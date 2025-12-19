@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Claude Auto-Prompt",
-  "version": "1.1.0",
-  "description": "Automatically opens Claude and sends a prompt every 5 hours, with quiet hours support",
+  "version": "1.2.0",
+  "description": "Automatically opens Claude and sends a prompt every 5 hours, with quiet hours and robust text injection",
   "permissions": [
     "alarms",
     "tabs",
