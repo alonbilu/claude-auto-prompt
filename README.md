@@ -4,14 +4,15 @@ A Chrome extension that automatically opens Claude and sends a prompt every 5 ho
 
 ## Features
 
-✨ **Automatic Scheduling** - Runs automatically every 5 hours  
-⚙️ **Configurable Prompt** - Set any prompt you want (default: ".")  
-🤖 **Model Selection** - Choose which Claude model to use  
-🧠 **Extended Thinking Control** - Automatically disables extended thinking before sending  
-⏸️ **Quiet Hours** - Pause automation during nighttime or other periods  
-⚡ **One-Click Testing** - Test the automation immediately with a button click  
-📱 **Smart Detection** - Automatically closes the tab after receiving a response  
-💾 **Persistent Settings** - Your prompt, model, and quiet hours are saved locally  
+✨ **Automatic Scheduling** - Runs automatically every 5 hours
+⚙️ **Configurable Prompt** - Set any prompt you want (default: ".")
+🤖 **Model Selection** - Choose which Claude model to use
+🧠 **Extended Thinking Control** - Automatically disables extended thinking before sending
+⏸️ **Quiet Hours** - Pause automation during nighttime or other periods
+⚡ **One-Click Testing** - Test the automation immediately with a button click
+📱 **Smart Detection** - Automatically closes the tab after receiving a response
+💾 **Persistent Settings** - Your prompt, model, and quiet hours are saved locally
+🔧 **Robust Text Injection** - Handles Claude.ai UI changes with multi-strategy focus management  
 
 ## Installation
 
@@ -100,7 +101,24 @@ A Chrome extension that automatically opens Claude and sends a prompt every 5 ho
 
 ### Prompt Injection Method
 
-The extension uses `document.execCommand('insertText')` to inject text into Claude's textarea, which works with React's controlled components by dispatching proper input events.
+The extension uses a robust multi-strategy approach to inject text into Claude's editor:
+
+1. **Editor Detection** - Finds the input element using multiple strategies:
+   - ProseMirror editor (`.ProseMirror[contenteditable="true"]`)
+   - Contenteditable with placeholder attribute
+   - Fieldset-wrapped contenteditable
+   - Size-based detection for large contenteditable elements
+   - Traditional textarea fallback
+
+2. **Focus Management** - Ensures reliable focus acquisition:
+   - Simulates mouse click events (mousedown → mouseup → click) before focusing
+   - Verifies focus was successful with retry mechanism
+   - Re-focuses every 5 characters during text injection to prevent focus loss
+
+3. **Text Insertion** - Uses multiple methods for compatibility:
+   - `document.execCommand('insertText')` for contenteditable
+   - Selection API with proper cursor positioning
+   - InputEvent dispatch for React compatibility
 
 ### Quiet Hours Logic
 
@@ -118,7 +136,9 @@ The extension uses `document.execCommand('insertText')` to inject text into Clau
 - Try clicking "Test Now" manually
 
 ### Prompt not appearing in textarea
-- Wait a moment after the page loads
+- Wait a moment after the page loads (the extension waits 4 seconds by default)
+- Check browser console for `[findEditor]` logs to see which editor type was detected
+- Look for `[ensureFocus]` logs to verify focus is being acquired
 - Extended thinking button click might be interfering
 - Check browser console for errors (F12)
 
@@ -204,7 +224,16 @@ Open DevTools console on any page and look for `[STEP X]` messages to debug auto
 
 ## Version History
 
-### v1.1.0 (Latest) - December 9, 2025
+### v1.2.0 (Latest) - December 19, 2025
+- 🔧 Fixed focus loss issue when injecting text into Claude.ai
+- 🔧 Added multi-strategy editor detection (ProseMirror, contenteditable, textarea)
+- 🔧 Implemented click-to-focus activation before focusing elements
+- 🔧 Added focus verification with retry mechanism
+- 🔧 Re-focus every 5 characters during text injection
+- 🔧 Proper text insertion for contenteditable divs using Selection API
+- 🔧 InputEvent dispatch for modern editor compatibility
+
+### v1.1.0 - December 9, 2025
 - ✨ Added Quiet Hours feature
 - ✨ Schedule-free periods for nighttime
 - ✨ Immediate execution when quiet hours end
@@ -254,4 +283,4 @@ For issues, questions, or suggestions:
 
 **Made with ❤️ for Claude users who love automation**
 
-Version 1.1.0 • Last updated December 9, 2025
+Version 1.2.0 • Last updated December 19, 2025
